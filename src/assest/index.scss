@@ -1,0 +1,12 @@
+
+@import './variables.scss';
+@import './mixin.scss';
+@import './components/navbar.scss';
+@import './components/loading.scss';
+@import './components/card.scss';
+* {
+   margin:0; 
+  padding:0; 
+  box-sizing: border-box;
+};
+
