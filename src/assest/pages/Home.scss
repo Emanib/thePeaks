@@ -60,3 +60,18 @@ grid-column: 7 / 9;
     margin-bottom: 50px;
 
 }
+.btn-view {
+  background-color:$backgroundColor; 
+  border:none; 
+  padding: 1em 1.5em; 
+  color:$color-text; 
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  cursor: pointer;
+  @include flex (center,null);
+ 
+}
+a {
+  text-decoration: none;
+}

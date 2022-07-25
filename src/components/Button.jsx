@@ -1,7 +1,6 @@
-import React from 'react'
 
-export default function Button({type,color,content}) {
+export default function Button({content, onClick}) {
   return (
-    <button type= {type} className = {`btn-${color}`}> {content} </button>
+    <button  onClick= {onClick} className = 'btn-view'> {content} </button>
   )
 }

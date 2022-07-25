@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom"
 import LoadingBar from '../components/LoadingBar'
 import NavBar from '../components/NavBar'
 import SnakBar from '../components/SnakBar'
+import Button from '../components/Button'
 import { GlobalContext } from "../context/GlobalState";
-
+import BookOn from '../assest/icons/BookOn'
 export default function Article()
 {
   const [loading, setLoading] = useState(true)
@@ -34,7 +35,7 @@ export default function Article()
   }
   useEffect(() =>
   {
-    // save the values of state add/remove
+    // save the value of state add/remove
     const articleFind = bookMarkList.find((item) => item.id === newId)
     if (articleFind)
     {
@@ -70,7 +71,10 @@ export default function Article()
       {loading ? <LoadingBar /> : (
         <div className="container">
           <div class="wrapper-article">
-            <button onClick={handleSave}> {isInBookList ? "Remove" : "Add"}  </button>
+            <Button onClick={handleSave} content={<>
+              <BookOn />
+              <span> {isInBookList ? "Remove Bookmark" : "Add Bookmark"}</span>
+            </>} /> 
             <div class="article-img">
               <img src={article?.fields?.thumbnail} alt="article" />
             </div>

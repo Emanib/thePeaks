@@ -14,8 +14,11 @@ export default function CardNews({img,content,body})
     objectFit:"cover",
     boxShadow: "hsl(242deg 88% 66% / 58%) 0px 2px 6px",
   }
+  const cardTextStyle = {
+    color: "pink",
+  }
   return (
-    <div style={img? cardStyle:null} >
+    <div style={img? cardStyle: cardTextStyle} >
       <div className="background-content">
         <div className="content">
           

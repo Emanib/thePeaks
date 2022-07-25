@@ -6,7 +6,7 @@ import CardNews from '../components/cards/CardNews'
 export default function BookMark()
 {
   const { bookMarkList } = useContext(GlobalContext)
-  console.log(bookMarkList)
+  // console.log(bookMarkList)
   return (
     <div>
       <NavBar />

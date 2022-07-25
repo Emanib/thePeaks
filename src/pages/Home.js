@@ -4,10 +4,11 @@ import Title from '../components/Title'
 import Select from '../components/Select'
 import Button from '../components/Button'
 import NavBar from '../components/NavBar'
-import { useState, useEffect, useRef } from 'react'
+import BookOn from '../assest/icons/BookOn'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link, useNavigate } from "react-router-dom";
-import Article from './Article'
+// import Article from './Article'
 
 export default function Home()
 {
@@ -20,8 +21,8 @@ export default function Home()
   const [news, setNews] = useState([])
   const [sections, setSection] = useState([])
   const timeout = useRef()
-  const navigate = useNavigate()
-  const [newId, setId] = useState("")
+  // const navigate = useNavigate()
+  // const [newId, setId] = useState("")
   // console.log(category)
   // const url = 'https://content.guardianapis.com/'
   const getAllNews = async () =>
@@ -58,25 +59,42 @@ export default function Home()
 
     }
   }
-  const search = () =>
+  const debounce = (func) =>
+  {
+    let timer;
+    return function (...args)
+    {
+      const context = this;
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() =>
+      {
+        timer = null;
+        func.apply(context, args)
+      }, 500)
+    }
+
+  }
+  const search = async (value) =>
   {
     try 
     {
-      if (!searchTerm) return
-      setSearchResult([])
-      clearTimeout(timeout.current);
-      timeout.current = setTimeout(async () =>
-      {
-        setLoading(true)
-        const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${searchTerm}&page-size=5&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&orderBy=${sorting}	`);
+      if (!value) return
+      setSearchResult([]) 
+
+      // clearTimeout(timeout.current);
+      // timeout.current = setTimeout(async () =>
+      // {
+      // setLoading(true)
+      const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${value}&page-size=5&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&orderBy=${sorting}	`);
         const allItems = await result.json();
         setSearchResult((prevNews) =>
         {
           return [...new Set([...prevNews, ...allItems.response.results])]
         })
-        setLoading(false)
+      setSearchTerm(value)
+        // setLoading(false)
 
-      }, 250)
+      // }, 1000)
     } catch (error)
     {
       console.log(error)
@@ -85,20 +103,21 @@ export default function Home()
     }
 
   }
+  const optimizeFn = useCallback(debounce(search), [])
+
   useEffect(() =>
   {
     getAllNews()
+    // search()
     basedCategory()
-    search()
-
-  }, [searchTerm, sorting])
+  }, [sorting])
   const handleSorting = (e) =>
   {
     setSorting(e.target.value)
   }
   const handleSearch = (e) =>
   {
-    setSearchTerm(e.target.value)
+    setSearchTerm(optimizeFn(e.target.value))
   }
   // console.log(news)
   // const handleNaviegate = (id) =>
@@ -140,14 +159,18 @@ export default function Home()
       ))
     )
   }
+  console.log(searchResult, searchTerm)
   return (
     <div >
       <NavBar search={searchTerm} handleChange={handleSearch} />
       <div className='container'>
         <div className='header-top' >
-          <Title title="top stories" />
+          <Title title="Top stories" />
           <div>
-            <Link to="/bookmark"> <Button content="view Bookmark" /></Link>
+            <Link to="/bookmark"> <Button content={<>
+              <BookOn />
+              <span> view Bookmark </span>
+            </>} /></Link>
             <Select onChange={handleSorting} orderby={sorting} />
           </div>
         </div>
@@ -158,7 +181,7 @@ export default function Home()
                 {getNews()}
               </div > :
               <div className='section-2'>
-                <h2> Search Result: {searchTerm} </h2>
+                {/* <h2> Search Result: {searchTerm} </h2> */}
                 {getSearchResult()}
               </div>
             }
