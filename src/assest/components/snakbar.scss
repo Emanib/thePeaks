@@ -1,0 +1,17 @@
+.snakbar {
+  color: $color-text;
+  padding: 4px;
+  display: flex;
+>div {
+  display: flex;
+  align-self: center;
+}
+  @include flex (center,center)
+
+}
+#show {
+  visibility: visible;
+}
+#hide {
+  visibility: hidden;
+}

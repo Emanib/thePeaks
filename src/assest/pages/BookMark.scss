@@ -1,0 +1,6 @@
+.cards-bookmark {
+  display:grid; 
+   grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    grid-auto-rows: minmax(300px, auto);
+}

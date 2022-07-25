@@ -3,7 +3,6 @@
    padding : 2em 3em;
 .logo {
    display:flex; 
-   justify-content: spa;
   flex-direction: column;
   position: relative;
   .search {
@@ -54,7 +53,7 @@
   
   .search__submit {
     color: white;
-    margin-right: 20px; 
+    margin-right: 10%; 
     &:hover,
     &:focus {
       outline: 0;
