@@ -1,7 +1,12 @@
 .snakbar {
   color: $color-text;
-  padding: 4px;
+  // padding: 4px;
   display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
 >div {
   display: flex;
   align-self: center;

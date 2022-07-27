@@ -7,30 +7,27 @@ import NavBar from '../components/NavBar'
 import BookOn from '../assest/icons/BookOn'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import LoadingBar from '../components/LoadingBar'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import Article from './Article'
 
 export default function Home()
 {
-  // const [news, setNews] = useState([]);
-  // const [categories, setCategories] = useState()
+
   const [loading, setLoading] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
   const [sorting, setSorting] = useState('newest')
-  const [searchResult, setSearchResult] = useState([])
   const [news, setNews] = useState([])
   const [sections, setSection] = useState([])
-  const timeout = useRef()
   // const navigate = useNavigate()
   // const [newId, setId] = useState("")
   // console.log(category)
   // const url = 'https://content.guardianapis.com/'
+
   const getAllNews = async () =>
   {
     try 
     {
       setLoading(true)
-      const result = await fetch(`${process.env.REACT_APP_API_URL}/news?page-size=8&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+      const result = await fetch(`${process.env.REACT_APP_API_URL}search?section =news&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
       const allItems = await result.json();
       setNews(allItems.response.results)
       setLoading(false)
@@ -50,7 +47,6 @@ export default function Home()
       const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=sport&page-size=3&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
       const allItems = await result.json();
       setSection(allItems.response.results)
-      // console.log(allItems)
       setLoading(false)
     } catch (error)
     {
@@ -59,51 +55,6 @@ export default function Home()
 
     }
   }
-  const debounce = (func) =>
-  {
-    let timer;
-    return function (...args)
-    {
-      const context = this;
-      if (timer) clearTimeout(timer)
-      timer = setTimeout(() =>
-      {
-        timer = null;
-        func.apply(context, args)
-      }, 500)
-    }
-
-  }
-  const search = async (value) =>
-  {
-    try 
-    {
-      if (!value) return
-      setSearchResult([]) 
-
-      // clearTimeout(timeout.current);
-      // timeout.current = setTimeout(async () =>
-      // {
-      // setLoading(true)
-      const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${value}&page-size=5&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&orderBy=${sorting}	`);
-        const allItems = await result.json();
-        setSearchResult((prevNews) =>
-        {
-          return [...new Set([...prevNews, ...allItems.response.results])]
-        })
-      setSearchTerm(value)
-        // setLoading(false)
-
-      // }, 1000)
-    } catch (error)
-    {
-      console.log(error)
-      setLoading(false)
-
-    }
-
-  }
-  const optimizeFn = useCallback(debounce(search), [])
 
   useEffect(() =>
   {
@@ -115,24 +66,19 @@ export default function Home()
   {
     setSorting(e.target.value)
   }
-  const handleSearch = (e) =>
-  {
-    setSearchTerm(optimizeFn(e.target.value))
-  }
-  // console.log(news)
-  // const handleNaviegate = (id) =>
-  // {
-  //   setId(id)
-  //   navigate(`/article/${id}`)
-  //   console.log(id)
 
-  // }
   const getSportSection = () =>
   {
     return (
       sections?.map((item) => (
         <div key={item.id}>
-          <CardNews img={item?.fields?.thumbnail} content={item.fields.headline} body={item.fields.trailText} />
+          <Link to={`/${item.id}`}>
+            <CardNews
+              img={item?.fields?.thumbnail}
+              webTitle={item.webTitle}
+              headline={item.fields.headline}
+              value={item?.sectionId} />
+          </Link> 
         </div>
       ))
     )
@@ -142,27 +88,37 @@ export default function Home()
     return (
       news?.slice(0, 5).map((item) => (
         <div key={item.id}>
-          {/* {console.log(item.id)} */}
           <Link to={`/${item.id}`} >
-            <CardNews img={item?.fields.thumbnail} content={item.fields.headline} body={item.fields.trailText} /> </Link>
+            <CardNews
+              img={item?.fields.thumbnail}
+              webTitle={item.webTitle}
+              headline={item.fields.headline}
+              value={item.sectionId}
+            />
+          </Link>
         </div>
       ))
     )
   }
-  const getSearchResult = () =>
+  const getSectionNews = () =>
   {
     return (
-      searchResult?.map((item) => (
+      news.slice(5, 8).map((item) => (
         <div key={item.id}>
-          <CardNews img={item?.fields?.thumbnail} content={item?.fields?.headline} body={item?.fields?.trailText} />
+          <Link to={`/${item.id}`} >
+            <CardNews img={item?.fields.thumbnail}
+              webTitle={item.webTitle}
+              headline={item.fields.headline}
+            />
+          </Link>
         </div>
       ))
     )
   }
-  console.log(searchResult, searchTerm)
+
   return (
     <div >
-      <NavBar search={searchTerm} handleChange={handleSearch} />
+      {/* <NavBar search={searchTerm} handleChange={handleSearch} /> */}
       <div className='container'>
         <div className='header-top' >
           <Title title="Top stories" />
@@ -174,17 +130,18 @@ export default function Home()
             <Select onChange={handleSorting} orderby={sorting} />
           </div>
         </div>
-        {loading ? <LoadingBar /> :
+        {loading ?
+          <div className='center-loading'>
+            <LoadingBar />
+          </div>
+          :
           <>
-            {!searchTerm ?
-              <div className='top-news'>
+            <div className='top-news'>
                 {getNews()}
-              </div > :
-              <div className='section-2'>
-                {/* <h2> Search Result: {searchTerm} </h2> */}
-                {getSearchResult()}
-              </div>
-            }
+            </div >
+            <div className='category-section'>
+              {getSectionNews()}
+            </div>
             <div className="category">
               <h3> sports </h3>
               <div class="category-section">

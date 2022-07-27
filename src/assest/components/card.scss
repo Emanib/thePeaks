@@ -1,32 +1,17 @@
 .background-content {
-   background: $backgroundColor;
-    height: 134px;
-    width: 100%;
+  background: $backgroundColor;
+  height: 134px;
+  width: 100%;
 
-.content {
-  color:$color-text;
-  font-family: $font-text;
-  padding:2px ; 
-    >p {
-    font-size:  1em;
-     word-wrap: break-word;
-
-
+  .content {
+    color: $color-text;
+    font-family: $font-text;
+    padding: 2px;
+    > p {
+      font-size: 1em;
+      word-wrap: break-word;
     }
-
+  }
 }
-}
-.content-card {
-  background:$backgroundColor ;
-  // height: 138px;
-  font-family: $font-text;
-  color:$color-text;
-  padding: 2px;
-  font-size:  1em;
-  // width: fit-content;
-  height: 138px; /* play around with this number until you get the height you need */
- width:255px;
-  word-wrap: break-word;
 
 
-}

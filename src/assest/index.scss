@@ -8,6 +8,7 @@
 @import './components/select.scss';
 @import './pages/Home.scss';
 @import './pages/BookMark.scss';
+@import './pages/article.scss';
 * {
    margin:0; 
   padding:0; 
@@ -15,7 +16,7 @@
 };
 .container {
   padding: $padding-container;
-    min-height:100vh;
+    min-height: 100vh;
   //  position:relative;
   // width: 100%;
 }

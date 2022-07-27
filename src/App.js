@@ -3,16 +3,17 @@ import Home from './pages/Home';
 import Article from './pages/Article'
 // import NavBar from './components/NavBar'
 import Footer from './components/Footer'
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import BookMark from './pages/BookMark'
 // import { useState, useEffect } from 'react'
+import Layout from './components/Layout'
 import { GlobalProvider } from './context/GlobalState'
 function App()
 {
 
   return (
     <GlobalProvider>
-      <>
+      <Layout>
         {/* <NavBar /> */}
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +21,7 @@ function App()
           <Route path="*" element={<Article />} />
         </Routes>
         <Footer />
-      </>
+      </Layout>
     </GlobalProvider>
   );
 }

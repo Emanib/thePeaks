@@ -1,0 +1,22 @@
+.wrapper-article {
+  margin:30px; 
+}
+
+.line 
+{
+  background-color: #979797;
+  width: 90%;
+  height: 2px;
+  mix-blend-mode: normal;
+  opacity: .2;
+  margin:  20px 0px;
+
+}
+.article-body{
+  display:flex;
+
+}
+.article-txt{
+   word-wrap: break-word;
+   max-width: 60%;
+}
