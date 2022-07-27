@@ -3,12 +3,10 @@ import CardNews from '../components/cards/CardNews'
 import Title from '../components/Title'
 import Select from '../components/Select'
 import Button from '../components/Button'
-import NavBar from '../components/NavBar'
 import BookOn from '../assest/icons/BookOn'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link } from "react-router-dom";
-// import Article from './Article'
 
 export default function Home()
 {
@@ -17,9 +15,7 @@ export default function Home()
   const [sorting, setSorting] = useState('newest')
   const [news, setNews] = useState([])
   const [sections, setSection] = useState([])
-  // const navigate = useNavigate()
   // const [newId, setId] = useState("")
-  // console.log(category)
   // const url = 'https://content.guardianapis.com/'
 
   const getAllNews = async () =>
@@ -59,7 +55,6 @@ export default function Home()
   useEffect(() =>
   {
     getAllNews()
-    // search()
     basedCategory()
   }, [sorting])
   const handleSorting = (e) =>
@@ -118,7 +113,6 @@ export default function Home()
 
   return (
     <div >
-      {/* <NavBar search={searchTerm} handleChange={handleSearch} /> */}
       <div className='container'>
         <div className='header-top' >
           <Title title="Top stories" />

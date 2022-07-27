@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef, useContext } from "react"
 import { useParams } from "react-router-dom"
 import LoadingBar from '../components/LoadingBar'
-import NavBar from '../components/NavBar'
 import SnakBar from '../components/SnakBar'
 import Button from '../components/Button'
 import { GlobalContext } from "../context/GlobalState";
 import BookOn from '../assest/icons/BookOn'
-import Select from '../components/Select'
-import CardNews from '../components/cards/CardNews'
+
 export default function Article()
 {
   const [loading, setLoading] = useState(true)

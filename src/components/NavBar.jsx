@@ -2,7 +2,9 @@ import LogoPeaks from '../assest/icons/Logo'
 import Search from '../assest/icons/Search'
 import { Link } from "react-router-dom";
 
-export default function NavBar({search,handleChange}) {
+export default function NavBar({ search, handleChange })
+{
+  console.log(search)
   return (
     <div className ="navbar">
       <div className="logo">
