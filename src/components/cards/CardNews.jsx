@@ -4,6 +4,7 @@ export default function CardNews({ img, webTitle, headline, value })
 {
   const cardStyle = {
     backgroundImage: `url(${img})`,
+        // height: "350px",
 
   }
   const cardFake = {

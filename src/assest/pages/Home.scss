@@ -139,12 +139,21 @@ $gridGap: 30px;
 a {
   height: 100%; 
   display: block;
->div {
-  height: 100%;
-}
+
 }
     &+.grid {
         margin-top: $gridGap;
     }
 }
+}
+ .grid_wrap .first-grid{
+ > div {
+  > div {
+    > a {
+    > div {
+       height: 100%;
+    }
+    } 
+  }
+ }
 }
