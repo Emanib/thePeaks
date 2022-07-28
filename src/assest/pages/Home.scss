@@ -120,3 +120,31 @@ display:grid;
 place-items: center;
 margin-top: 30px;
 }
+$minColWidth: 15rem;
+$gridGap: 30px;
+.grid_wrap {
+
+    margin: 15px 0;
+    
+.grid {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax($minColWidth, 1fr));
+    grid-gap: $gridGap;
+    height: 100%;
+    >div {
+     height: 100%;
+
+    }
+a {
+  height: 100%; 
+  display: block;
+>div {
+  height: 100%;
+}
+}
+    &+.grid {
+        margin-top: $gridGap;
+    }
+}
+}

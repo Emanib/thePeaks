@@ -1,4 +1,4 @@
-
+import CardTxt from '../components/cards/CardTxt'
 import CardNews from '../components/cards/CardNews'
 import Title from '../components/Title'
 import Select from '../components/Select'
@@ -16,7 +16,6 @@ export default function Home()
   const [news, setNews] = useState([])
   const [sections, setSection] = useState([])
   // const [newId, setId] = useState("")
-  // const url = 'https://content.guardianapis.com/'
 
   const getAllNews = async () =>
   {
@@ -78,10 +77,27 @@ export default function Home()
       ))
     )
   }
-  const getNews = () =>
+  const getNewsFirstElement = () =>
   {
     return (
-      news?.slice(0, 5).map((item) => (
+      news?.slice(0, 1).map((item) => (
+        <div key={item.id}>
+          <Link to={`/${item.id}`} >
+            <CardNews
+              img={item?.fields.thumbnail}
+              webTitle={item.webTitle}
+              headline={item.fields.headline}
+              value={item.sectionId}
+            />
+          </Link>
+        </div>
+      ))
+    )
+  }
+  const getNewsSecond = () =>
+  {
+    return (
+      news?.slice(1, 3).map((item) => (
         <div key={item.id}>
           <Link to={`/${item.id}`} >
             <CardNews
@@ -130,9 +146,32 @@ export default function Home()
           </div>
           :
           <>
-            <div className='top-news'>
-                {getNews()}
-            </div >
+            <>
+              <div className="grid_wrap">
+                <div className="grid">
+                  <section className="grid_wrap first-grid">
+                    <div className="grid">
+                      {getNewsFirstElement()}
+                    </div>
+                  </section>
+                  <section className="grid_wrap second-grid">
+                    <div className="grid">
+                      {getNewsSecond()}
+                      {news?.slice(3, 5).map((item) => (
+                        <div key={item.id}>
+                          <Link to={`/${item.id}`} >
+                            <CardTxt
+                              value={item.sectionId}
+                              webTitle={item.webTitle}
+                            />
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </ >
             <div className='category-section'>
               {getSectionNews()}
             </div>

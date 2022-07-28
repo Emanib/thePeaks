@@ -3,42 +3,19 @@ import Select from './Select';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import CardNews from './cards/CardNews';
 import Footer from './Footer';
+import LoadingBar from './LoadingBar'
+import { Link } from "react-router-dom";
+
 export default function Layout({ children }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sorting, setSorting] = useState('newest');
   const [searchResult, setSearchResult] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const intObserver = useRef();
-  const mountedRef = useRef(true);
-  const lastPostRef = useCallback(
-    (post) => {
-      if (loading) return;
 
-      if (intObserver.current) intObserver.current.disconnect();
 
-      intObserver.current = new IntersectionObserver((articles) => {
-        if (articles[0].isIntersecting && hasNextPage) {
-          console.log('We are near the last articles!');
-          setPageNum((prev) => prev + 1);
-        }
-      });
 
-      if (post) intObserver.current.observe(post);
-    },
-    [loading, hasNextPage]
-  );
-  const handleReset = useCallback(async () => {
-    setSearchTerm('');
-  }, [mountedRef]);
-
-  useEffect(() => {
-    handleReset();
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [handleReset]);
   const debounce = (func) => {
     let timer;
     return function (...args) {
@@ -53,11 +30,36 @@ export default function Layout({ children }) {
   const handleSorting = (e) => {
     setSorting(e.target.value);
   };
+   const isScrolling = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+   document.documentElement.scrollHeight ) {
+          setHasNextPage(true);
+    }
+  };
+  const loadMore = async () =>
+  {
+      try 
+    {
+      // setLoading(true)
+      const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${searchTerm}page=${pageNum}&page-size=3&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+      const allItems = await result.json();
+      setSearchResult( prev=> [...prev, ...allItems.response.results])
+        setPageNum(prev => prev + 1)
+        setHasNextPage(false)
+      // setLoading(false)
+    } catch (error)
+    {
+      console.log(error)
+      setLoading(false)
+
+    }
+  }
   const search = async (value) => {
     try {
       if (!value) return;
       setSearchResult([]);
-
+   setLoading(true)
       const result = await fetch(
         `${process.env.REACT_APP_API_URL}search?q=${value}&page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`
       );
@@ -65,9 +67,12 @@ export default function Layout({ children }) {
       setSearchResult((prevNews) => {
         return [...new Set([...prevNews, ...allItems.response.results])];
       });
-      setHasNextPage(Boolean(searchResult.length));
+      // setPageNum(prev => prev + 1)
+       setHasNextPage(allItems.response.results.length > 0) ;
+
       setLoading(false);
       setSearchTerm(value);
+       window.addEventListener("scroll", isScrolling);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -77,8 +82,16 @@ export default function Layout({ children }) {
 
   const handleSearch = (e) => {
     setSearchTerm(optimizeFn(e.target.value));
+    setPageNum(1)
   };
-
+  useEffect(() =>
+  {
+    if (hasNextPage)
+    {
+      loadMore()
+      console.log("load more", pageNum)
+  }
+},[hasNextPage])
   useEffect(() => {
     search();
   }, [sorting, pageNum]);
@@ -92,29 +105,37 @@ export default function Layout({ children }) {
           </div>
           <div className='search-grid'>
             {searchResult?.map((item, index) => {
-              if (searchResult.length === index + 1) {
-                return (
-                  <div key={item.id} ref={lastPostRef}>
-                    <CardNews
-                      img={item?.fields?.thumbnail}
-                      webTitle={item.webTitle}
-                      headline={item.fields.headline}
-                    />
-                  </div>
-                );
-              }
+              // if (searchResult.length === index + 1) {
+              //   return (
+              //     <div key={item.id}>
+              //       <Link to={`/${item.id}`} >
+              //         <CardNews
+              //         img={item?.fields?.thumbnail}
+              //         webTitle={item.webTitle}
+              //         headline={item.fields.headline}
+              //       />
+              //      </Link> 
+              //     </div>
+               
+              //   );
+              // }
               return (
-                <div key={item.id}>
-                  <CardNews
+                <div key={index}>
+                  <Link to={`/${item.id}`} > <CardNews
                     img={item?.fields?.thumbnail}
                     webTitle={item.webTitle}
                     headline={item.fields.headline}
                   />
+                    </Link> 
                 </div>
               );
             })}
           </div>
         </div>
+        {hasNextPage &&
+          <div className='center-loading'>
+            <LoadingBar />
+          </div>}
         <Footer />
       </>
     );
