@@ -24,7 +24,7 @@ export default function BookMark()
 
 
     FilterArticles()
-  }, [sorting])
+  }, [sorting])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSorting = (e) =>
   {
