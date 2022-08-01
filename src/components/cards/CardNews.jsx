@@ -23,7 +23,10 @@ export default function CardNews({ img, webTitle, headline, value })
     }
   }
   return (
-    <div className={img ? 'card-news' : 'card'} style={img ? cardStyle : cardFake} >
+    <div className={img ? 'card-news' : 'card'}
+      style={img ? cardStyle : cardFake}
+      // style = {{ backgroundImage: `url(${peak})`}}
+      data-testid='card-1'  >
            {!img  && (
         <div className="peaksBack">
           <img src={peak} alt={headline} />

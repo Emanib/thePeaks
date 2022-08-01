@@ -1,6 +1,6 @@
 import NavBar from './NavBar';
 import Select from './Select';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CardNews from './cards/CardNews';
 import Footer from './Footer';
 import LoadingBar from './LoadingBar'
@@ -13,8 +13,6 @@ export default function Layout({ children }) {
   const [searchResult, setSearchResult] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-
-
 
   const debounce = (func) => {
     let timer;
@@ -59,7 +57,7 @@ export default function Layout({ children }) {
     try {
       if (!value) return;
       setSearchResult([]);
-   setLoading(true)
+      setLoading(true)
       const result = await fetch(
         `${process.env.REACT_APP_API_URL}search?q=${value}&page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`
       );
@@ -89,9 +87,9 @@ export default function Layout({ children }) {
     if (hasNextPage)
     {
       loadMore()
-      console.log("load more", pageNum)
   }
-},[hasNextPage])
+  }, [hasNextPage])
+  
   useEffect(() => {
     search();
   }, [sorting, pageNum]);
@@ -105,20 +103,7 @@ export default function Layout({ children }) {
           </div>
           <div className='search-grid'>
             {searchResult?.map((item, index) => {
-              // if (searchResult.length === index + 1) {
-              //   return (
-              //     <div key={item.id}>
-              //       <Link to={`/${item.id}`} >
-              //         <CardNews
-              //         img={item?.fields?.thumbnail}
-              //         webTitle={item.webTitle}
-              //         headline={item.fields.headline}
-              //       />
-              //      </Link> 
-              //     </div>
-               
-              //   );
-              // }
+         
               return (
                 <div key={index}>
                   <Link to={`/${item.id}`} > <CardNews

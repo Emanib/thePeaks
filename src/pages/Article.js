@@ -82,18 +82,12 @@ export default function Article()
             </>} /> 
             <div className="information">
               <p>
-                {
-                  article.webPublicationDate
-                  // new Date(`${article?.webPublicationDate}`)
-                  //   .toLocaleString()
-                  //   .split(",")[0]
-
-                } </p>
+                {article.webPublicationDate} </p>
             </div>
 
             <div class="article-headline">
               <h1> {article?.fields?.headline} </h1>
-              <h5> {article?.fields?.trailText} </h5>
+              <h5 dangerouslySetInnerHTML={{ __html: article.fields.trailText }} ></h5>
               <div className="line"></div> 
             </div>
             <div className="article-body">

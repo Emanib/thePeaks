@@ -7,7 +7,7 @@ import BookOn from '../assest/icons/BookOn'
 import { useState, useEffect } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link } from "react-router-dom";
-
+import { getNews, getSection } from '../api/index'
 export default function Home()
 {
 
@@ -22,8 +22,8 @@ export default function Home()
     try 
     {
       setLoading(true)
-      const result = await fetch(`${process.env.REACT_APP_API_URL}search?section =news&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
-      const allItems = await result.json();
+
+      const allItems = await getNews(sorting)
       setNews(allItems.response.results)
       setLoading(false)
     } catch (error)
@@ -39,8 +39,7 @@ export default function Home()
     try 
     {
       setLoading(true)
-      const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=sport&page-size=3&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
-      const allItems = await result.json();
+      const allItems = await getSection(sorting)
       setSection(allItems.response.results)
       setLoading(false)
     } catch (error)
