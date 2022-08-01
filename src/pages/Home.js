@@ -54,7 +54,7 @@ export default function Home()
   {
     getAllNews()
     basedCategory()
-  }, [sorting])
+  }, [sorting]) // eslint-disable-line react-hooks/exhaustive-deps
   const handleSorting = (e) =>
   {
     setSorting(e.target.value)

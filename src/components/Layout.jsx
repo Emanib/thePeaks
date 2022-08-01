@@ -1,13 +1,13 @@
 import NavBar from './NavBar';
 import Select from './Select';
-import { useState, useCallback, useEffect } from 'react';
+import { useState,  useEffect } from 'react';
 import CardNews from './cards/CardNews';
 import Footer from './Footer';
 import LoadingBar from './LoadingBar'
 import { Link } from "react-router-dom";
 
 export default function Layout({ children }) {
-  const [loading, setLoading] = useState(true);
+  const [ loading,setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sorting, setSorting] = useState('newest');
   const [searchResult, setSearchResult] = useState([]);
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
       setSearchResult( prev=> [...prev, ...allItems.response.results])
         setPageNum(prev => prev + 1)
         setHasNextPage(false)
-      // setLoading(false)
+      setLoading(false)
     } catch (error)
     {
       console.log(error)
@@ -76,7 +76,7 @@ export default function Layout({ children }) {
       setLoading(false);
     }
   };
-  const optimizeFn = useCallback(debounce(search), [sorting]);
+  const optimizeFn =debounce(search);
 
   const handleSearch = (e) => {
     setSearchTerm(optimizeFn(e.target.value));
@@ -88,11 +88,13 @@ export default function Layout({ children }) {
     {
       loadMore()
   }
-  }, [hasNextPage])
+  }, [hasNextPage]) // eslint-disable-line react-hooks/exhaustive-deps
   
   useEffect(() => {
     search();
-  }, [sorting, pageNum]);
+
+  }, [sorting, pageNum]); // eslint-disable-line react-hooks/exhaustive-deps
+   
   const getSearchResult = () => {
     return (
       <>
@@ -117,7 +119,7 @@ export default function Layout({ children }) {
             })}
           </div>
         </div>
-        {hasNextPage &&
+        {loading &&
           <div className='center-loading'>
             <LoadingBar />
           </div>}

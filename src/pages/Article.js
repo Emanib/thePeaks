@@ -64,7 +64,7 @@ export default function Article()
   useEffect(() =>
   {
     getArticle()
-  }, [loading, parmas.id])
+  }, [loading, parmas.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="container">
