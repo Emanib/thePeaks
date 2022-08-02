@@ -5,7 +5,7 @@ import SnakBar from '../components/SnakBar'
 import Button from '../components/Button'
 import { GlobalContext } from "../context/GlobalState";
 import BookOn from '../assest/icons/BookOn'
-
+import { getArticle } from '../api/index'
 export default function Article()
 {
   const [loading, setLoading] = useState(true)
@@ -14,12 +14,8 @@ export default function Article()
   const { bookMarkList, addArticleToBookList, removeArticleFromBookList } = useContext(GlobalContext)
   const parmas = useParams()
   let newId = parmas['*']
-  const typeSnak = {
-    success: "success",
-    fail: "fail"
-  }
-  const snakRef = useRef()
 
+  const snakRef = useRef()
 
   const handleSave = () =>
   {
@@ -47,12 +43,12 @@ export default function Article()
     }
   }, [article, bookMarkList, newId])
 
-  const getArticle = async () =>
+  const displayArticle = async () =>
   {
     try
     {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${newId}?api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&show-elements=all`)
-      const data = await response.json();
+
+      const data = await getArticle(newId)
       setArticle(data.response.content);
       setLoading(false);
     } catch (error)
@@ -63,13 +59,11 @@ export default function Article()
   }
   useEffect(() =>
   {
-    getArticle()
+    displayArticle()
   }, [loading, parmas.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="container">
-      {/* <NavBar /> */}
-
       {loading ?
         <div className='center-loading'>
           <LoadingBar />
@@ -96,10 +90,7 @@ export default function Article()
                 {article?.fields?.thumbnail ? <img src={article?.fields?.thumbnail} alt="article" /> : null}
               </div> 
             </div>
-
-            {isInBookList ? <SnakBar type={typeSnak.success} message="Saved to BookMarks" ref={snakRef} /> :
-              <SnakBar type={typeSnak.fail} message="Remove from BookMarks" ref={snakRef} />
-            }
+            <SnakBar type={isInBookList ? "success" : "fail"} isInBookList={isInBookList} ref={snakRef} />
         </div>
       )
       }

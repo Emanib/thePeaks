@@ -4,5 +4,8 @@
     gap: 30px;
     grid-auto-rows: minmax(300px, auto);
    margin-bottom: 30px;
-
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
 }

@@ -5,7 +5,7 @@ import CardNews from './cards/CardNews';
 import Footer from './Footer';
 import LoadingBar from './LoadingBar'
 import { Link } from "react-router-dom";
-
+import {getResultsSearch} from '../api/index'
 export default function Layout({ children }) {
   const [ loading,setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -58,16 +58,11 @@ export default function Layout({ children }) {
       if (!value) return;
       setSearchResult([]);
       setLoading(true)
-      const result = await fetch(
-        `${process.env.REACT_APP_API_URL}search?q=${value}&page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`
-      );
-      const allItems = await result.json();
+      const allItems = await getResultsSearch(pageNum,value,sorting)
       setSearchResult((prevNews) => {
         return [...new Set([...prevNews, ...allItems.response.results])];
       });
-      // setPageNum(prev => prev + 1)
-       setHasNextPage(allItems.response.results.length > 0) ;
-
+     setHasNextPage(allItems.response.results.length > 0) ;
       setLoading(false);
       setSearchTerm(value);
        window.addEventListener("scroll", isScrolling);

@@ -9,9 +9,8 @@ import BookOff from '../assest/icons/BookOff'
   //  <SnakBar type={typeSnak.success} message="Saved to BookMarks" ref={snakRef} />
 //  when add bookmark <button onClick={() => snakRef.current.show()}  > Add Book mark </button>
 //  pass ref from parent to children 
-const Snackbar = forwardRef(({type,message},ref) => {
+const Snackbar = forwardRef(({type,isInBookList},ref) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
-
   useImperativeHandle(ref, () => ({
     show() {
       setShowSnackbar(true);
@@ -22,6 +21,7 @@ const Snackbar = forwardRef(({type,message},ref) => {
   }));
   return (
     <div
+      
       className="snakbar"
       id={showSnackbar ? "show" : "hide"}
       style={{
@@ -31,7 +31,7 @@ const Snackbar = forwardRef(({type,message},ref) => {
       <div className="symbol">
         {type === "success" ? <BookOn />  : <BookOff />}
       </div>
-      <div className="message">{message}</div>
+      <div className="message">{ isInBookList? "Saved to BookMarks":"Remove from BookMarks"}</div>
     </div>
   );
 });
