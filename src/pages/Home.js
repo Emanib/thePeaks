@@ -7,7 +7,7 @@ import BookOn from '../assest/icons/BookOn'
 import { useState, useEffect } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link } from "react-router-dom";
-import { getNews, getSection } from '../api/index'
+import { getNews, getSection } from '../api/api'
 export default function Home()
 {
 
@@ -15,6 +15,7 @@ export default function Home()
   const [sorting, setSorting] = useState('newest')
   const [news, setNews] = useState([])
   const [sections, setSection] = useState([])
+  const [error, setError] = useState('')
   // const [newId, setId] = useState("")
 
   const getAllNews = async () =>
@@ -28,8 +29,8 @@ export default function Home()
       setLoading(false)
     } catch (error)
     {
-      console.log(error)
       setLoading(false)
+      setError(error)
 
     }
 
@@ -44,7 +45,7 @@ export default function Home()
       setLoading(false)
     } catch (error)
     {
-      console.log(error)
+      setError(error)
       setLoading(false)
 
     }
@@ -149,12 +150,12 @@ export default function Home()
               <div className="grid_wrap">
                 <div className="grid">
                   <section className="grid_wrap first-grid">
-                    <div className="grid">
+                    <div className="grid" >
                       {getNewsFirstElement()}
                     </div>
                   </section>
                   <section className="grid_wrap second-grid">
-                    <div className="grid">
+                    <div className="grid"  >
                       {getNewsSecond()}
                       {news?.slice(3, 5).map((item) => (
                         <div key={item.id}>
@@ -171,7 +172,7 @@ export default function Home()
                 </div>
               </div>
             </ >
-            <div className='category-section'>
+            <div className='category-section' data-testid='card-1'  >
               {getSectionNews()}
             </div>
             <div className="category">
@@ -183,6 +184,7 @@ export default function Home()
           </>
 
         }
+        {error && <div> something went wrong </div>}
         {/* <Article id={newId} /> */}
       </div>
 

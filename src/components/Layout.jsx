@@ -5,7 +5,7 @@ import CardNews from './cards/CardNews';
 import Footer from './Footer';
 import LoadingBar from './LoadingBar'
 import { Link } from "react-router-dom";
-import {getResultsSearch} from '../api/index'
+import {getResultsSearch} from '../api/api'
 export default function Layout({ children }) {
   const [ loading,setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');

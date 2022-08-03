@@ -2,7 +2,7 @@ export const getNews = async (sorting) =>
 {
   try 
   {
-    const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=news&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+    const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=news&page-size=8&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
     return await result.json();
   } catch (error)
   {

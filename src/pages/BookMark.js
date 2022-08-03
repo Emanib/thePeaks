@@ -6,10 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function BookMark()
 {
-  const { bookMarkList } = useContext(GlobalContext)
-  const [sorting, setSorting] = useState("newest")
+  const { bookMarkList, sorting, handleSorting } = useContext(GlobalContext)
   const [filterArticles, setFilterArticles] = useState(bookMarkList)
-
   const FilterArticles = () =>
   {
 
@@ -22,14 +20,13 @@ export default function BookMark()
   useEffect(() =>
   {
 
-
     FilterArticles()
   }, [sorting])  // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSorting = (e) =>
-  {
-    setSorting(e.target.value)
-  }
+  // const handleSorting = (e) =>
+  // {
+  //   setSorting(e.target.value)
+  // }
   return (
     <div>
       {/* <NavBar /> */}

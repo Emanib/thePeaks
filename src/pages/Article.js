@@ -5,7 +5,7 @@ import SnakBar from '../components/SnakBar'
 import Button from '../components/Button'
 import { GlobalContext } from "../context/GlobalState";
 import BookOn from '../assest/icons/BookOn'
-import { getArticle } from '../api/index'
+import { getArticle } from '../api/api'
 export default function Article()
 {
   const [loading, setLoading] = useState(true)
@@ -70,7 +70,8 @@ export default function Article()
         </div>
         : (
           <div className="wrapper-article">
-            <Button onClick={handleSave} content={<>
+            <Button onClick={handleSave} content={
+              <>
               <BookOn />
               <span> {isInBookList ? "Remove Bookmark" : "Add Bookmark"}</span>
             </>} /> 
@@ -78,8 +79,7 @@ export default function Article()
               <p>
                 {article.webPublicationDate} </p>
             </div>
-
-            <div class="article-headline">
+            <div className="article-headline">
               <h1> {article?.fields?.headline} </h1>
               <h5 dangerouslySetInnerHTML={{ __html: article.fields.trailText }} ></h5>
               <div className="line"></div> 
