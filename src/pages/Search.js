@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getResultsSearch } from '../api/api'
 import { GlobalContext } from '../context/GlobalState'
 import { useContext } from "react"
+import LoadingBar from '../components/LoadingBar';
 
 export default function Layout()
 {
@@ -80,8 +81,12 @@ export default function Layout()
           </div>
           <div className='grid_wrap'>
             <div className='grid'>
-              {searchResult.length > 0 ? searchResult.map((item, index) =>
-              {
+              {loading ?
+                <div className='center-loading'>
+                  <LoadingBar />
+                </div> :
+                searchResult.length > 0 ? searchResult.map((item, index) =>
+                {
                 return (
                   <div key={index}>
                     <Link to={`/${item.id}`} > <CardNews
@@ -92,7 +97,7 @@ export default function Layout()
                     </Link>
                   </div>
                 );
-              }) : <div> No Results on this query </div>
+                }) : <div className='center-loading' > No Results on this query </div>
               }
             </div>
           </div>
