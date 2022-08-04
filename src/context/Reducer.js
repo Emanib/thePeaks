@@ -5,6 +5,7 @@ const bookMarkReducer = (state, action) =>
     case 'ADD': return { ...state, bookList: [action.payload, ...state.bookList] };
     case 'Remove': return { ...state, bookList: state.bookList.filter((article) => article.id !== action.payload) };
     case 'sort': return { ...state, sorting: action.payload }
+    case 'search': return { ...state, searchTerm: action.payload }
     default:
       return state
   }

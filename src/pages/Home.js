@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link } from "react-router-dom";
 import { getNews, getSection } from '../api/api'
+
 export default function Home()
 {
 
@@ -129,10 +130,11 @@ export default function Home()
 
   return (
     <div >
+      {/* <Layout />  */}
       <div className='container'>
         <div className='header-top' >
           <Title title="Top stories" />
-          <div>
+          <div >
             <Link to="/bookmark"> <Button content={<>
               <BookOn />
               <span> view Bookmark </span>
@@ -171,14 +173,20 @@ export default function Home()
                   </section>
                 </div>
               </div>
-            </ >
-            <div className='category-section' data-testid='card-1'  >
-              {getSectionNews()}
+            </>
+            <div className='grid_wrap' data-testid='sections-news'  >
+              <div className='grid'>
+                {getSectionNews()}
+
+              </div>
             </div>
             <div className="category">
               <h3> sports </h3>
-              <div class="category-section">
-                {getSportSection()}
+              <div class="grid_wrap">
+                <div className='grid'>
+                  {getSportSection()}
+
+                </div>
               </div>
             </div>
           </>

@@ -8,6 +8,7 @@ describe('search component', () =>
   test('render searchbox in navbar', async () =>
   {
     expect(searchInput).toBeInTheDocument()
+
   })
 
   test('input should change the value', async () =>

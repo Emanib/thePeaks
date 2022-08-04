@@ -2,7 +2,8 @@ import { createContext, useReducer, useEffect } from "react";
 import bookMarkReducer from './Reducer'
 const initialState = {
   bookList: localStorage.getItem('booklist') ? JSON.parse(localStorage.getItem('booklist')) : [],
-  sorting: "newest"
+  sorting: "newest",
+  searchTerm: "",
 }
 export const GlobalContext = createContext(initialState)
 export const GlobalProvider = (props) =>
@@ -28,13 +29,20 @@ export const GlobalProvider = (props) =>
   {
     dispatch({ type: 'sort', payload: e.target.value })
   }
+  const handleSearch = (value) =>
+  {
+    dispatch({ type: 'search', payload: value })
+  }
   const data = {
     bookMarkList: state.bookList,
     addArticleToBookList,
     removeArticleFromBookList,
     handleSorting,
-    sorting: state.sorting
+    sorting: state.sorting,
+    handleSearch,
+    searchTerm: state.searchTerm
   }
+  // console.log(state.searchTerm, handleSearch)
   return (
     <GlobalContext.Provider
       value={data}

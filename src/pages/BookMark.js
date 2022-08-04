@@ -35,7 +35,8 @@ export default function BookMark()
           <h1> All BookMarks</h1>
           <Select value={sorting} onChange={handleSorting} />
         </div>
-        <div className="cards-bookmark">
+        <div className="grid_wrap">
+          <div className="grid"> 
           {filterArticles.map((item) => (
             <Link to={`/${item.id}`} key={item.id} >
               <CardNews img={item?.fields.thumbnail}
@@ -43,8 +44,8 @@ export default function BookMark()
                 headline={item.fields.headline}
                 value={item.sectionId} />
             </Link>
-
           ))}
+          </div>
         </div>
       </div>
     </div>

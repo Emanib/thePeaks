@@ -37,11 +37,11 @@ export const getArticle = async (newId) =>
 
   }
 }
-export const getResultsSearch = async (pageNum, value, sorting) =>
+export const getResultsSearch = async (pageNum, searchTerm, sorting) =>
 {
   try
   {
-    const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${value}&page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+    const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${searchTerm}&page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
     return await result.json();
   } catch (error)
   {

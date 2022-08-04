@@ -36,6 +36,8 @@ export default function CardNews({ img, webTitle, headline, value })
         <h3 className='title'> {webTitle} </h3>
           {/* <p> {headline} </p> */}
       </div>
+    
+    
        <SectionsTypes value ={value} />
     </div>
   )

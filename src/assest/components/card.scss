@@ -21,6 +21,10 @@
   // align-items: center;
   flex-direction: column;
   justify-content: center;
+   .peaksBack {
+    display: flex;
+    align-self: center;
+  }
   // align-items: end;
   .card-info {
     height: 33%;
@@ -45,10 +49,7 @@
   align-items: flex-end;
   position: relative;
   // height: 100%;
-  .peaksBack {
-    display: flex;
-    align-items: center;
-  }
+ 
   .card-info {
     height: 33%;
     width: 100%;
