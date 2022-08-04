@@ -29,7 +29,7 @@ export default function Layout()
     try 
     {
       // setLoading(true)
-      const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${searchTerm}page=${pageNum}&page-size=3&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+      const result = await fetch(`${process.env.REACT_APP_API_URL}search?q=${searchTerm}page=${pageNum}&page-size=15&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
       const allItems = await result.json();
       setSearchResult(prev => [...prev, ...allItems.response.results])
       setPageNum(prev => prev + 1)
