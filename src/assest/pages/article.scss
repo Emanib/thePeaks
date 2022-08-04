@@ -14,22 +14,23 @@
 }
 .article-body{
   display:flex;
-  @media only screen and (max-width: 600px) {
-    display: flex;
-  
-    flex-direction: column;
-    font-size: 1em;
-    .article-img {
+  .article-img {
       max-width: 100%;
       > img {
         width:100%
       }
     }
+  @media only screen and (max-width: 600px) {
+    display: flex;
+  
+    flex-direction: column;
+    font-size: 1em;
+
   }
 }
 .article-txt{
    word-wrap: break-word;
-   max-width: 100%;
+   max-width: 60%;
    > figure {
      > img {
       width: 100%;
