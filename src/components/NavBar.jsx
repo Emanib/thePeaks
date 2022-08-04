@@ -37,7 +37,7 @@ export default function NavBar()
   };
   const optimizeFn = debounce();
   return (
-    <div className ="navbar">
+    <div className="navbar">
       <div className="logo">
         <Link to ="/"><LogoPeaks /></Link> 
         <div className="search">
@@ -46,7 +46,7 @@ export default function NavBar()
           <Search />
           </button>  
         </div>
-     </div>
+        </div>
     </div>
   )
 }

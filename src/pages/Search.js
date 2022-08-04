@@ -80,7 +80,7 @@ export default function Layout()
             <Select orderby={sorting} onChange={handleSorting} />
           </div>
           <div className='grid_wrap'>
-            <div className='grid'>
+            <div className='grid-search'>
               {loading ?
                 <div className='center-loading'>
                   <LoadingBar />
@@ -97,7 +97,7 @@ export default function Layout()
                     </Link>
                   </div>
                 );
-                }) : <div className='center-loading' > No Results on this query </div>
+                }) : <div > No Results on this query </div>
               }
             </div>
           </div>
