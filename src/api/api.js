@@ -1,9 +1,11 @@
-export const getNews = async (sorting) =>
+export const getNews = (sorting) =>
 {
   try 
   {
-    const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=news&page-size=8&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
-    return await result.json();
+    // const result = await fetch(`${process.env.REACT_APP_API_URL}search?section=news&page-size=8&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`);
+    return fetch(`${process.env.REACT_APP_API_URL}search?section=news&page-size=8&api-key=${process.env.REACT_APP_API_KEY}&show-fields=all&order-by=${sorting}`).then(res => res.json()).catch(error => console.log(error))
+    // return await result.json();
+    // console.log(await result.json())
   } catch (error)
   {
     console.log(error)

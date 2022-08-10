@@ -4,14 +4,15 @@ import Title from '../components/Title'
 import Select from '../components/Select'
 import Button from '../components/Button'
 import BookOn from '../assest/icons/BookOn'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import LoadingBar from '../components/LoadingBar'
 import { Link } from "react-router-dom";
 import { getNews, getSection } from '../api/api'
+import { GlobalContext } from '../context/GlobalState'
 
 export default function Home()
 {
-
+  const { handleSearch } = useContext(GlobalContext)
   const [loading, setLoading] = useState(false)
   const [sorting, setSorting] = useState('newest')
   const [news, setNews] = useState([])
@@ -23,10 +24,12 @@ export default function Home()
   {
     try 
     {
-      setLoading(true)
 
-      const allItems = await getNews(sorting)
-      setNews(allItems.response.results)
+      setLoading(true)
+      getNews(sorting).then((res) =>
+        setNews(res.response.results)
+      )
+      // setNews(allItems.response.results)
       setLoading(false)
     } catch (error)
     {
@@ -54,6 +57,7 @@ export default function Home()
 
   useEffect(() =>
   {
+    handleSearch("")
     getAllNews()
     basedCategory()
   }, [sorting]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -182,7 +186,7 @@ export default function Home()
             </div>
             <div className="category">
               <h3> sports </h3>
-              <div class="grid_wrap">
+              <div className="grid_wrap">
                 <div className='grid'>
                   {getSportSection()}
 

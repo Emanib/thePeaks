@@ -1,4 +1,4 @@
-export const data = {
+export const NewsData = {
   status: "ok",
   userTier: "developer",
   total: 26771,

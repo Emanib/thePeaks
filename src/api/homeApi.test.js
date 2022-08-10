@@ -1,34 +1,46 @@
 
 import { screen, render, waitFor } from '@testing-library/react'
-import * as api from './api'
+import { getNews } from './api'
 import Home from '../pages/Home'
 import { BrowserRouter } from 'react-router-dom'
-import { Data } from './data'
-jest.mock('./api')
+import { NewsData } from './data'
+import { GlobalProvider } from '../context/GlobalState'
 
-describe('test api calls in home without crashing', () =>
+// jest.mock('./api')
+describe('withFetch', () =>
 {
-  beforeEach(() => jest.clearAllMocks())
-  it('should render results of news on top stories', async () =>
+  beforeEach(() =>
   {
-    api.getNews.mockResolvedValue(Data)
-    //  know the length of the results 
-    render(<Home />, { wrapper: BrowserRouter })
-    const dataApi = await api.getNews()
-    expect(dataApi.results.length).toEqual(8)
-    expect(dataApi.results[0].webTitle).toEqual('Corrections and clarifications')
-    await waitFor(() =>
-    {
-      screen.queryByTestId('sections-news')
-    })
+    fetch.resetMocks()
   })
+  it('should render results of news on top stories', () =>
+  {
 
+    fetch.mockResponseOnce(JSON.stringify(NewsData))
+    getNews('newest').then((res) =>
+    {
+      expect(res.results).toHaveLength(8)
+      expect(res.results[0].webTitle).toEqual('Corrections and clarifications')
+    }).catch(error =>
+    {
+      expect(error.toBe(false))
+    })
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(`https://content.guardianapis.com/search?section=news&page-size=8&api-key=dd8810e2-f821-4334-a1a7-0c7aeb8b541d&show-fields=all&order-by=newest`);
+
+  })
   it('should render error message when api fails', async () =>
   {
-    api.getNews.mockRejectedValue({})
-    render(<Home />, { wrapper: BrowserRouter })
+    fetch.mockReject(() => { });
+    const handleSearch = jest.fn()
+    render(
+      <GlobalProvider value={handleSearch} >
+        <Home />
+      </GlobalProvider>
+      , { wrapper: BrowserRouter })
     await waitFor(() =>
     {
+      expect(screen.queryByTestId('sections-news')).toBeNull()
       screen.getByText('something went wrong')
     })
   })

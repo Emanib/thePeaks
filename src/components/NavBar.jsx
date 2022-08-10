@@ -32,16 +32,16 @@ export default function NavBar()
       {
         timer = null;
         handleSearch(...args)
-      }, 500);
+      }, 10);
     };
   };
-  const optimizeFn = debounce();
+  const optimizeFn = debounce(); //should take function 
   return (
     <div className="navbar">
       <div className="logo">
         <Link to ="/"><LogoPeaks /></Link> 
         <div className="search">
-          <input type="text" className="search__input" placeholder='Search all news'  onChange={(e)=> optimizeFn(e.target.value) } />
+          <input type="text" className="search__input" placeholder='Search all news'  onChange={(e)=> optimizeFn(e.target.value) } value = {searchTerm} />
           <button className="search__submit">
           <Search />
           </button>  

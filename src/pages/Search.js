@@ -14,7 +14,6 @@ export default function Layout()
   const [searchResult, setSearchResult] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-
   const { sorting, handleSorting, searchTerm } = useContext(GlobalContext)
   const isScrolling = () =>
   {
@@ -67,7 +66,6 @@ export default function Layout()
   useEffect(() =>
   {
     search();
-
   }, [sorting, searchTerm]);// eslint-disable-line react-hooks/exhaustive-deps
 
   const getSearchResult = () =>
